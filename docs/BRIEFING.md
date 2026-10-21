@@ -190,7 +190,7 @@ vitrine.
 - **Filtro do catálogo fixo na rolagem:** o `overflow-hidden` do bloco anulava o `sticky`; virou `overflow-clip`, que recorta os cantos sem criar contêiner de rolagem.
 - **Painel de dimensionamento:** título em duas linhas (coluna de 560px; variáveis em 620px). A foto aparece no bloco inteiro: véu de 86–78% sob o texto, 42% no vão entre as colunas e 70–76% sob as variáveis. Contraste do texto branco no pior caso (foto branca atrás): cerca de 8,7:1 à esquerda e 7:1 à direita.
 - **Diferenciais:** "Uma empresa que faz só ar comprimido." virou "Especialista em ar comprimido industrial.", sem a restrição do "só".
-- **Cotação:** título "Fale com a equipe técnica da Spinplus." e eyebrow "Fale com a Spinplus" (o antigo repetia o título).
+- **Cotação:** título "Fale com a equipe técnica da Spinplus." e eyebrow "Cotação" (o anterior, "Fale com a Spinplus", repetia o título).
 - **Cotação → rodapé igual à manutenção:** o empilhamento das divisórias (`z-index` decrescente em `global.css`) cobria só 6 seções, as da manutenção; esta LP tem 7, e o rodapé pintava por cima da cotação, mostrando uma faixa de 48px com a borda no meio. A escada agora vai até 8 seções. O componente do rodapé é o mesmo da manutenção, com os tokens de cor do v2.9.0.
 - **Transição hero → linhas:** as duas seções são navy e a curva sumia. O hero fecha com o fio vermelho de 3px dos outros blocos navy e uma sombra que o descola de linhas.
 
