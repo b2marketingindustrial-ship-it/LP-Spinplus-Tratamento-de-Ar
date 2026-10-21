@@ -1,0 +1,155 @@
+---
+/**
+ * Painel de apoio à identificação — fase "apoio" da biblioteca B2.
+ *
+ * VARIANTE LOCAL DA SPINPLUS (docs/BRIEFING.md, Desvios do padrão): o mesmo desenho do
+ * "Como funciona" da LP Spinplus Manutenção — bloco navy de ponta a ponta com a sala de
+ * ar comprimido ao fundo, cabeçalho à esquerda e as 6 variáveis à direita, em linhas com
+ * ícone em círculo, divisórias e fio vermelho de 3px fechando o bloco. O contrato da
+ * seção é o mesmo da biblioteca — dados, CTA `identificar-cta`, bloco navy da fase de
+ * apoio, tone/rhythm.
+ *
+ * ATENÇÃO: `npm run compose` recopia este arquivo da biblioteca e desfaz a variante.
+ * Para recompor a página, restaure este arquivo do git depois de rodar o compose.
+ */
+import { Picture } from 'astro:assets'
+import Section from '@components/Section.astro'
+import Icon from '@components/Icon.astro'
+import Button from '@components/Button.astro'
+import Eyebrow from '@components/Eyebrow.astro'
+import type { SectionProps } from '@lib/layout'
+import { RHYTHMS } from '@lib/rhythm.mjs'
+import { cta } from '@data/content'
+import { supportPanel } from '@data/sections/identificar'
+import cenario from '@assets/identificar/sala-ar-comprimido.jpg'
+
+type Props = SectionProps
+
+const { tone, rhythm } = Astro.props
+
+/* O bloco navy ocupa a seção inteira: avança sobre os respiros que a composição deu a ela
+   (valores do ritmo, não números fixos) e, em cima, também sobre a faixa que fica sob a
+   curva da seção anterior (--lp-round, global.css). Assim as divisórias arredondadas caem
+   entre o navy e as seções vizinhas, e não entre duas áreas brancas. */
+const bleedTop = RHYTHMS[rhythm]?.top ?? 0
+const bleedBottom = RHYTHMS[rhythm]?.bottom ?? 0
+---
+
+<Section id="identificar" tone={tone} rhythm={rhythm} container={false}>
+  <div
+    class="support-band relative overflow-hidden rounded-b-[var(--lp-round)] border-b-[3px] border-accent-orange bg-primary-dark-900"
+    style={`margin-top: calc(-${bleedTop}px - var(--lp-round, 0px)); margin-bottom: -${bleedBottom}px; padding-top: var(--lp-round, 0px)`}
+  >
+    {/* Sala de ar comprimido ao fundo, escurecida pelos véus navy */}
+    <div aria-hidden="true" class="absolute inset-0 lg:-left-[6%] lg:w-full">
+      <Picture
+        src={cenario}
+        alt=""
+        widths={[640, 1024, 1600]}
+        sizes="100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover object-center"
+        pictureAttributes={{ class: 'block h-full w-full' }}
+      />
+    </div>
+    <span aria-hidden="true" class="support-veil pointer-events-none absolute inset-0"></span>
+
+    <div class="relative mx-auto max-w-page px-6 py-16 lg:px-10 lg:py-20">
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,560px)_minmax(0,620px)] lg:items-center lg:justify-between lg:gap-10">
+        {/* Cabeçalho e CTA */}
+        <div>
+          <Eyebrow tone="light">{supportPanel.eyebrow}</Eyebrow>
+          <h2 class="mt-4 font-display text-[2.25rem] leading-[1.05] font-extrabold tracking-[-0.015em] text-neutral-light sm:text-[2.75rem] lg:text-[3rem]">
+            {supportPanel.title}
+          </h2>
+          <p class="mt-5 max-w-[520px] font-sans text-base leading-relaxed text-neutral-light/80 lg:text-[17px]">
+            {supportPanel.text}
+          </p>
+
+          <Button
+            cta="identificar-cta"
+            variant="primary"
+            class="mt-8 w-full shadow-[0_16px_32px_-14px_rgba(229,38,32,0.8)] sm:w-auto"
+          >
+            {cta.secondary}
+          </Button>
+
+          <span class="mt-5 flex items-center gap-3 font-sans text-[15px] text-neutral-light/75">
+            <Icon name="shield" class="size-7 shrink-0 text-accent-orange" />
+            {supportPanel.microcopy}
+          </span>
+        </div>
+
+        {/* As 6 variáveis: ícone em círculo, número vermelho, nome e esclarecimento */}
+        <ul class="support-grid grid sm:grid-cols-2 sm:gap-x-10">
+          {supportPanel.items.map((item, i) => (
+            <li class="support-item flex items-center gap-4 border-b border-white/12 py-4">
+              <span class="flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-white/25 bg-primary-dark-900 text-neutral-light">
+                <Icon name={item.icon} class="size-5" />
+              </span>
+              <span
+                aria-hidden="true"
+                class="w-7 shrink-0 font-display text-xl font-extrabold text-accent-orange"
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="min-w-0">
+                <span class="block font-display text-lg leading-snug font-extrabold text-neutral-light">
+                  {item.label}
+                </span>
+                <span class="mt-0.5 block font-sans text-[14px] leading-relaxed text-neutral-light/70">
+                  {item.hint}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  /* A foto aparece no bloco inteiro (pedido do usuário em 21/10/2026). O véu é mais fechado só
+     onde há texto: no mobile o texto cai sobre a foto toda. */
+  .support-veil {
+    background: linear-gradient(
+      180deg,
+      rgb(0 24 48 / 0.74) 0%,
+      rgb(0 24 48 / 0.8) 55%,
+      rgb(0 24 48 / 0.9) 100%
+    );
+  }
+
+  /* No desktop: mais fechado sob o texto (esquerda) e sob as variáveis (direita), mais aberto
+     no vão entre as duas colunas, onde a sala aparece por inteiro. */
+  @media (min-width: 1024px) {
+    .support-veil {
+      background:
+        linear-gradient(
+          90deg,
+          rgb(0 24 48 / 0.86) 0%,
+          rgb(0 24 48 / 0.78) 36%,
+          rgb(0 24 48 / 0.42) 46%,
+          rgb(0 24 48 / 0.42) 50%,
+          rgb(0 24 48 / 0.7) 58%,
+          rgb(0 24 48 / 0.76) 100%
+        ),
+        linear-gradient(180deg, rgb(0 33 71 / 0.3) 0%, transparent 40%);
+    }
+  }
+
+  /* Sem divisória na última linha de cada coluna */
+  .support-item:last-child {
+    border-bottom: 0;
+  }
+
+  @media (width >= 40rem) {
+    .support-item:nth-last-child(2) {
+      border-bottom: 0;
+    }
+  }
+</style>

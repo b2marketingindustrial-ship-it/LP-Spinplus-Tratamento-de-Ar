@@ -1,0 +1,154 @@
+---
+/**
+ * Linhas de produto — fase "oferta" da biblioteca B2.
+ *
+ * VARIANTE LOCAL (pedido do usuário em 20/10/2026, docs/BRIEFING.md, Desvios do padrão):
+ * a estrutura original da LP estática de tratamento de ar — bloco navy de ponta a ponta,
+ * rótulo vermelho com traço, título com destaque em vermelho e parágrafo ao lado, e uma
+ * grade 2×2 de cards brancos horizontais (foto sobre painel claro + chip, título,
+ * descrição, 3 características e "Ver modelos", que filtra o catálogo).
+ * O contrato da seção é o mesmo da biblioteca: dados, CTA `linhas-{id}`, tone/rhythm.
+ *
+ * ATENÇÃO: `npm run compose` recopia este arquivo da biblioteca e desfaz a variante.
+ * Para recompor a página, restaure este arquivo do git depois de rodar o compose.
+ */
+import { Image } from 'astro:assets'
+import Section from '@components/Section.astro'
+import Icon from '@components/Icon.astro'
+import type { SectionProps } from '@lib/layout'
+import { RHYTHMS } from '@lib/rhythm.mjs'
+import { productLines, type ProductLine } from '@data/sections/linhas'
+
+type Props = SectionProps
+
+const { tone, rhythm } = Astro.props
+const lines: readonly ProductLine[] = productLines.items
+const [before, after] = productLines.title.split(productLines.highlight)
+
+/* O bloco navy ocupa a seção inteira, como os outros blocos navy da página: avança sobre
+   os respiros da composição e sobre a faixa sob a curva da seção anterior (--lp-round). */
+const bleedTop = RHYTHMS[rhythm]?.top ?? 0
+const bleedBottom = RHYTHMS[rhythm]?.bottom ?? 0
+---
+
+<Section id="linhas" tone={tone} rhythm={rhythm} container={false}>
+  <div
+    class="lines-band relative overflow-hidden rounded-b-[var(--lp-round)]"
+    style={`margin-top: calc(-${bleedTop}px - var(--lp-round, 0px)); margin-bottom: -${bleedBottom}px; padding-top: var(--lp-round, 0px)`}
+  >
+    <div class="relative mx-auto max-w-page px-6 py-16 lg:px-10 lg:py-20">
+      {/* Introdução: rótulo com traço, título à esquerda e parágrafo à direita */}
+      <div class="grid gap-y-6 lg:grid-cols-2 lg:items-end lg:gap-x-14">
+        <span class="font-display text-sm font-bold tracking-[0.11em] text-accent-orange uppercase lg:col-span-2">
+          {productLines.eyebrow}
+          <span
+            aria-hidden="true"
+            class="mt-5 block h-1 w-[60px] rounded-sm bg-accent-orange"
+          ></span>
+        </span>
+        <h2 class="font-display text-[2.25rem] leading-[1.05] font-extrabold tracking-[-0.015em] text-primary-dark sm:text-[2.75rem] lg:text-[3rem]">
+          {before}
+          <em class="text-accent-orange not-italic">{productLines.highlight}</em>
+          {after}
+        </h2>
+        <p class="max-w-[560px] font-sans text-base leading-relaxed text-ink-soft lg:text-[17px]">
+          {productLines.text}
+        </p>
+      </div>
+
+      {/* Grade 2×2 de cards horizontais */}
+      <div class="mt-12 grid gap-4 lg:grid-cols-2">
+        {lines.map((line) => (
+          <article class="family-card grid grid-cols-1 rounded-lg bg-neutral-light p-2.5 text-ink-soft sm:grid-cols-[40%_minmax(0,1fr)] xl:grid-cols-[46%_minmax(0,1fr)]">
+            <div class="family-card__stage flex min-h-[230px] items-center justify-center overflow-hidden rounded-md p-5 sm:min-h-[260px] xl:min-h-[300px]">
+              <Image
+                src={line.photo.src}
+                alt={line.photo.alt}
+                format="webp"
+                loading="lazy"
+                decoding="async"
+                class="family-card__photo h-[200px] w-full object-contain sm:h-[250px]"
+              />
+            </div>
+
+            <div class="flex min-w-0 flex-col px-2.5 pt-5 pb-3 sm:pt-3 sm:pr-3 sm:pl-5 xl:pl-[22px]">
+              <span class="mb-3.5 self-start rounded-full bg-accent-orange/10 px-3 py-1 font-display text-xs font-bold tracking-[0.07em] text-accent-orange uppercase">
+                {line.tag}
+              </span>
+              <h3 class="font-display text-xl leading-snug font-extrabold tracking-[-0.01em] text-primary-dark xl:text-[22px]">
+                {line.title}
+              </h3>
+              <p class="mt-2.5 font-sans text-[15px] leading-normal">{line.description}</p>
+
+              <ul class="mt-4 mb-5 grid gap-2.5 border-t border-neutral-gray-200 pt-4">
+                {line.features.map((feature) => (
+                  <li class="flex items-start gap-3 font-sans text-[15px] leading-snug text-primary-dark">
+                    <Icon name="check" class="mt-0.5 size-[18px] shrink-0 text-accent-orange" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href="#vitrine"
+                data-cta={`linhas-${line.id}`}
+                data-filter={line.id}
+                class="mt-auto inline-flex items-center gap-2.5 self-start font-display text-sm font-bold tracking-[0.03em] text-accent-orange uppercase transition-[gap,color] duration-200 hover:gap-4 hover:text-primary-dark"
+              >
+                Ver modelos
+                <Icon name="arrow-right" class="size-4" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .lines-band {
+    background:
+      radial-gradient(circle at 1px 1px, rgb(0 33 71 / 0.12) 1px, transparent 1.5px) 0 0 / 20px 20px,
+      repeating-linear-gradient(135deg, rgb(0 33 71 / 0.025) 0 1px, transparent 1px 12px),
+      linear-gradient(135deg, #f4f6f8 0%, #e7ebef 55%, #f7f9fa 100%);
+  }
+
+  .family-card {
+    box-shadow: 0 14px 32px rgb(20 43 67 / 0.12);
+    transition:
+      transform 300ms ease,
+      box-shadow 300ms ease;
+  }
+
+  .family-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 22px 42px rgb(20 43 67 / 0.18);
+  }
+
+  .family-card__stage {
+    background: linear-gradient(160deg, #f1f4f8 0%, #dce3eb 100%);
+  }
+
+  /* multiply some com o fundo branco das fotos sobre o painel claro */
+  .family-card__photo {
+    mix-blend-mode: multiply;
+    transition: transform 500ms ease;
+  }
+
+  .family-card:hover .family-card__photo {
+    transform: scale(1.05);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .family-card,
+    .family-card__photo {
+      transition: none;
+    }
+
+    .family-card:hover,
+    .family-card:hover .family-card__photo {
+      transform: none;
+    }
+  }
+</style>

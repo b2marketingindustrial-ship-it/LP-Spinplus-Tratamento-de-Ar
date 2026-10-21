@@ -1,0 +1,143 @@
+---
+/**
+ * Diferenciais — fase "autoridade" da biblioteca B2.
+ *
+ * VARIANTE LOCAL DA SPINPLUS (aprovada pelo cliente em 19/10/2026, docs/BRIEFING.md,
+ * Desvios do padrão): bloco coberto pelo banner do cliente, com o navy à esquerda já
+ * fundido na foto do técnico em diagnóstico e o texto sobre ele; um traço vermelho no lugar do
+ * eyebrow; e os 5 diferenciais numa faixa branca com divisórias, em vez de cards. O contrato
+ * da seção é o mesmo da biblioteca — dados, CTA `diferenciais-cta`, bloco navy da fase de
+ * autoridade, tone/rhythm.
+ *
+ * ATENÇÃO: `npm run compose` recopia este arquivo da biblioteca e desfaz a variante.
+ * Para recompor a página, restaure este arquivo do git depois de rodar o compose.
+ */
+import { Picture } from 'astro:assets'
+import Section from '@components/Section.astro'
+import Icon from '@components/Icon.astro'
+import Eyebrow from '@components/Eyebrow.astro'
+import Button from '@components/Button.astro'
+import type { SectionProps } from '@lib/layout'
+import { RHYTHMS } from '@lib/rhythm.mjs'
+import { cta } from '@data/content'
+import { why } from '@data/sections/diferenciais'
+
+type Props = SectionProps
+
+const { tone, rhythm } = Astro.props
+
+/* A seção vai de borda a borda com os próprios blocos: o navy sobe sobre o respiro de cima
+   (e a faixa sob a curva da seção anterior, --lp-round) e a faixa branca desce sobre o de
+   baixo. Assim as divisórias arredondadas caem entre cores diferentes e aparecem. */
+const bleedTop = RHYTHMS[rhythm]?.top ?? 0
+const bleedBottom = RHYTHMS[rhythm]?.bottom ?? 0
+---
+
+<Section id="diferenciais" tone={tone} rhythm={rhythm} container={false}>
+  {/* Bloco navy: no mobile a foto vem antes do texto; no desktop o banner cobre o bloco */}
+  {/* inteiro — o navy da esquerda já vem fundido na imagem, e o texto fica sobre ele. */}
+  <div
+    class="navy-premium relative flex flex-col overflow-hidden [container-type:inline-size]"
+    style={`margin-top: calc(-${bleedTop}px - var(--lp-round, 0px)); padding-top: var(--lp-round, 0px)`}
+  >
+    <div class="why-photo relative h-[320px] sm:h-[420px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto">
+      <Picture
+        src={why.scene.src}
+        alt={why.scene.alt}
+        widths={[640, 1024, 1600, 2174]}
+        sizes="100vw"
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 h-full w-full object-cover object-[80%_center] lg:object-[100%_6%]"
+        pictureAttributes={{ class: 'absolute inset-0 h-full w-full' }}
+      />
+    </div>
+
+    <div class="relative mx-auto w-full max-w-page px-6 py-16 lg:px-10 lg:py-20">
+      <div class="lg:max-w-[46%]">
+        <Eyebrow tone="light">{why.eyebrow}</Eyebrow>
+        <h2 class="mt-4 font-display text-[2.25rem] leading-[1.05] font-extrabold tracking-[-0.015em] sm:text-[2.75rem] lg:text-[3rem] text-neutral-light">
+          {why.titleLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </h2>
+        <p class="mt-5 max-w-[600px] font-sans text-base leading-relaxed lg:text-[17px] text-neutral-light/80">
+          {why.text}
+        </p>
+        <Button
+          cta="diferenciais-cta"
+          variant="primary"
+          class="mt-8 w-full shadow-[0_16px_32px_-14px_rgba(229,38,32,0.8)] sm:w-auto"
+        >
+          {cta.primary}
+        </Button>
+      </div>
+    </div>
+  </div>
+
+  {/* Faixa branca com os 5 diferenciais, separados por divisórias; fecha a seção com a curva */}
+  <div
+    class="rounded-b-[var(--lp-round)] bg-neutral-light shadow-[0_22px_40px_-26px_rgba(0,33,71,0.35)]"
+    style={`margin-bottom: -${bleedBottom}px`}
+  >
+    <ul
+      class="why-strip mx-auto grid max-w-page gap-x-6 gap-y-6 px-6 py-7 sm:grid-cols-2 lg:grid-cols-5 lg:gap-x-0 lg:px-10"
+      aria-label={why.eyebrow}
+    >
+      {why.reasons.map((reason) => (
+        <li class="why-item flex items-start gap-3.5">
+          <Icon name={reason.icon} class="mt-0.5 size-9 shrink-0 text-accent-orange" />
+          <div class="min-w-0">
+            <h3 class="font-display text-[15px] leading-snug font-extrabold whitespace-nowrap text-primary-dark">
+              {reason.title}
+            </h3>
+            <p class="mt-1 line-clamp-2 font-sans text-[14px] leading-relaxed text-ink-soft">
+              {reason.description}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<style>
+  @media (min-width: 1024px) {
+    /* A foto é ancorada ao fim da coluna de texto, como no hero: o compressor (47% da largura */
+    /* da imagem) começa 80px depois do texto em qualquer tela, e a borda esquerda se esfuma no */
+    /* navy do bloco. Alinhada à direita e pelo topo: o técnico não sai da tela nem perde a cabeça. */
+    .why-photo {
+      --edge: max(0px, calc((100cqw - var(--container-page)) / 2));
+      --text-end: calc(var(--edge) + 40px + 0.46 * (min(100cqw, var(--container-page)) - 80px));
+      --x: max(0px, calc((var(--text-end) + 80px - 0.47 * 100cqw) / 0.53));
+      left: var(--x);
+      mask-image: linear-gradient(
+        90deg,
+        transparent calc(var(--text-end) - var(--x)),
+        #000 calc(var(--text-end) - var(--x) + 70px)
+      );
+    }
+
+    /* Divisórias verticais entre os diferenciais, como no layout aprovado. */
+    .why-item {
+      padding-inline: 1.5rem;
+    }
+
+    .why-item:first-child {
+      padding-left: 0;
+    }
+
+    .why-item:last-child {
+      padding-right: 0;
+    }
+
+    .why-item + .why-item {
+      border-left: 1px solid rgb(0 33 71 / 0.1);
+    }
+  }
+</style>

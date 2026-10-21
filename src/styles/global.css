@@ -8,8 +8,9 @@
   --color-primary-dark: #002147;
   --color-primary-dark-800: #003669;
   --color-primary-dark-900: #001830;
-  --color-accent-orange: #ff6b00;
-  --color-accent-orange-dark: #e55f00;
+  /* Spinplus: o acento do padrão passa a ser o vermelho da logo (entrada 14). */
+  --color-accent-orange: #e52620;
+  --color-accent-orange-dark: #c21a15;
   --color-neutral-light: #ffffff;
   --color-neutral-gray-100: #f5f7fa;
   --color-neutral-gray-200: #a0a0a0;
@@ -158,4 +159,86 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Spinplus: divisões entre as seções com cantos arredondados (pedido do cliente,
+   19/10/2026 — o mesmo tratamento da LP Spinplus Compressores). Cada seção termina
+   com os cantos de baixo curvos e a seguinte sobe por baixo dela: a margem negativa a
+   esconde sob a curva e a borda transparente do mesmo tamanho devolve o espaço, então
+   conteúdo e decorações não mudam de lugar. `:not(:first-of-type)` e não
+   `section + section`: o Astro renderiza o <script> de uma seção entre ela e a seguinte.
+   Fora de @layer de propósito: precisa vencer as utilities de fundo e de borda.
+   Os blocos navy de `processo` e `diferenciais` e a faixa branca dos diferenciais
+   ocupam a seção até a borda (ver os componentes), senão a curva cairia entre duas
+   áreas da mesma cor e não apareceria.
+   --------------------------------------------------------------------------- */
+:root {
+  --lp-round: 2rem;
+}
+
+@media (width >= 64rem) {
+  :root {
+    --lp-round: 3rem;
+  }
+}
+
+#main > section {
+  position: relative;
+  border-bottom-left-radius: var(--lp-round);
+  border-bottom-right-radius: var(--lp-round);
+}
+
+#main > section:not(:first-of-type),
+#main + footer {
+  position: relative;
+  margin-top: calc(-1 * var(--lp-round));
+  border-top: var(--lp-round) solid transparent;
+}
+
+/* Cada seção por cima da seguinte, para a curva aparecer sobre ela. Esta LP tem 7 seções
+   (hero + 5 da composição + cotação), uma a mais que a de manutenção: sem o degrau da 7ª,
+   o footer pintava por cima da cotação e a faixa sob a curva aparecia nele. */
+#main > section:nth-of-type(1) {
+  z-index: 8;
+}
+
+#main > section:nth-of-type(2) {
+  z-index: 7;
+}
+
+#main > section:nth-of-type(3) {
+  z-index: 6;
+}
+
+#main > section:nth-of-type(4) {
+  z-index: 5;
+}
+
+#main > section:nth-of-type(5) {
+  z-index: 4;
+}
+
+#main > section:nth-of-type(6) {
+  z-index: 3;
+}
+
+#main > section:nth-of-type(7) {
+  z-index: 2;
+}
+
+#main > section:nth-of-type(8) {
+  z-index: 1;
+}
+
+/* Hero → Linhas: as duas são navy e a curva sumia. O hero fecha com o fio vermelho de 3px
+   dos outros blocos navy (identificar, processo da manutenção) e uma sombra que o descola
+   do bloco de baixo. */
+#main > section:first-of-type {
+  border-bottom: 3px solid var(--color-accent-orange);
+  box-shadow: 0 26px 48px -18px rgb(0 8 20 / 0.7);
+}
+
+#main + footer {
+  z-index: 0;
 }

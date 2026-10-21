@@ -176,19 +176,37 @@ for (const f of astroFiles) {
 /* A8. Estrutura fixa: assinaturas do Header, Hero, Cotação e Footer ---------- */
 {
   const expect = {
-    'Header.astro': ['sticky top-0 z-50', '-mt-3 -mb-10', 'rounded-b-xl', 'data-cta="header-cta"'],
+    // Desvio aprovado pelo cliente em 19/10/2026 (docs/BRIEFING.md, Desvios do padrão):
+    // barra branca com a logo alinhada dentro dela, no lugar da barra navy com a placa
+    // pendurada. A assinatura foi repinada na estrutura nova — ela continua guardando
+    // contra mudança acidental, agora a partir desta base.
+    'Header.astro': [
+      'sticky top-0 z-50',
+      'bg-neutral-light',
+      'header-logo',
+      'data-cta="header-cta"',
+    ],
+    // Mesmo desvio do Header (19/10/2026, segunda versão do hero): o banner ocupa o hero
+    // inteiro com o lado esquerdo esfumado, ancorado ao fim da coluna de texto, e o
+    // shortcode do chat fica num card fosco que encosta na margem da tela. O grid de três
+    // colunas e a coluna de 300px do shortcode continuam os do padrão.
     'Hero.astro': [
       'grid-template-columns: minmax(0, 1fr) 270px 300px',
-      'right: var(--page-edge)',
-      'width: 1700px',
+      'left: calc(var(--col-end) - 688px)',
+      'hero-chat',
+      '<slot name="shortcode" />',
       'lg:w-[300px]',
       'data-hero-grid',
       'fetchpriority="high"',
     ],
+    // Mesmo desvio (19/10/2026): texto à esquerda e o card do formulário à direita, no lugar
+    // do formulário à esquerda. A assinatura foi repinada na ordem nova; o shortcode continua
+    // sendo o formulário, dentro do card `quote-slot`.
     'QuoteForm.astro': [
       'id="cotacao"',
-      'lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]',
-      'order-2 w-full lg:order-1',
+      'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]',
+      'quote-slot',
+      '<slot name="shortcode" />',
       'data-cta="cotacao-whatsapp"',
     ],
     'Footer.astro': [

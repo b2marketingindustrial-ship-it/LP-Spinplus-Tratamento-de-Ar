@@ -1,0 +1,312 @@
+---
+/**
+ * Vitrine de produtos — fase "oferta" da biblioteca B2.
+ *
+ * VARIANTE LOCAL (pedido do usuário em 20/10/2026, docs/BRIEFING.md, Desvios do padrão):
+ * a estrutura original do catálogo da LP estática — faixa navy com rótulo, título com
+ * destaque, texto e o total de equipamentos; abaixo, barra lateral de filtros por família
+ * que acompanha a rolagem e grade de cards em 3 colunas (foto sobre painel claro,
+ * família, nome e link de contato). Os grupos dos dados viram os filtros.
+ * O contrato da seção é o mesmo da biblioteca: dados, CTA `vitrine-{id}`, tone/rhythm.
+ *
+ * ATENÇÃO: `npm run compose` recopia este arquivo da biblioteca e desfaz a variante.
+ * Para recompor a página, restaure este arquivo do git depois de rodar o compose.
+ */
+import { Image } from 'astro:assets'
+import Section from '@components/Section.astro'
+import Icon from '@components/Icon.astro'
+import type { SectionProps } from '@lib/layout'
+import { RHYTHMS } from '@lib/rhythm.mjs'
+import { cta } from '@data/content'
+import { showcase, type ShowcaseGroup, type ShowcaseItem } from '@data/sections/vitrine'
+
+type Props = SectionProps
+
+const { tone, rhythm } = Astro.props
+const { groups, items }: { groups: readonly ShowcaseGroup[]; items: readonly ShowcaseItem[] } =
+  showcase
+
+// Mesma verificação da biblioteca: com grupos, item sem grupo sumiria do filtro em silêncio.
+const groupById = new Map(groups.map((group) => [group.id, group]))
+for (const item of items) {
+  if (!groupById.has(item.group)) {
+    throw new Error(
+      `vitrine: o item "${item.id}" aponta para o grupo "${item.group}", que não existe em groups.`,
+    )
+  }
+}
+
+const filters = [
+  { id: 'todos', label: 'Todos', icon: 'grid' as const },
+  ...groups.map((group) => ({
+    id: group.id,
+    label: group.label,
+    icon: group.icon,
+  })),
+]
+
+const [before, after] = showcase.title.split(showcase.highlight)
+
+/* A faixa navy e o corpo cinza-azulado ocupam a seção inteira: avançam sobre os respiros da
+   composição e sobre a faixa sob a curva da seção anterior (--lp-round, global.css). */
+const bleedTop = RHYTHMS[rhythm]?.top ?? 0
+const bleedBottom = RHYTHMS[rhythm]?.bottom ?? 0
+---
+
+<Section id="vitrine" tone={tone} rhythm={rhythm} container={false}>
+  <div
+    class="catalog relative overflow-clip rounded-b-[var(--lp-round)]"
+    style={`margin-top: calc(-${bleedTop}px - var(--lp-round, 0px)); margin-bottom: -${bleedBottom}px`}
+    data-catalog
+  >
+    {/* Faixa do topo */}
+    <div class="catalog__top relative overflow-hidden" style="padding-top: var(--lp-round, 0px)">
+      <div class="relative z-[1] mx-auto grid max-w-page items-center gap-6 px-6 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-0 lg:px-10 lg:py-20">
+        <div>
+          <span class="mb-2.5 block font-display text-[13px] font-bold tracking-[0.12em] text-accent-orange uppercase">
+            {showcase.eyebrow}
+          </span>
+          <h2 class="font-display text-[2.25rem] leading-[1.05] font-extrabold tracking-[-0.015em] text-neutral-light sm:text-[2.75rem] lg:text-[3rem]">
+            {before}
+            <em class="text-accent-orange not-italic">{showcase.highlight}</em>
+            {after}
+          </h2>
+        </div>
+        <p class="max-w-[420px] font-sans text-base leading-relaxed text-neutral-light/85 lg:ml-12 lg:max-w-[380px] lg:border-l lg:border-white/20 lg:py-1 lg:pl-9 lg:text-[17px]">
+          {showcase.text}
+        </p>
+      </div>
+    </div>
+
+    {/* Corpo: filtros à esquerda, grade à direita */}
+    <div class="catalog__body">
+      <div class="mx-auto grid max-w-page items-start gap-5 px-6 py-16 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-7 lg:px-10 lg:py-20">
+        <aside class="rounded-[10px] bg-neutral-light p-[18px] shadow-[0_8px_28px_rgba(20,41,74,0.08)] lg:sticky lg:top-24 lg:px-[22px] lg:pt-6 lg:pb-[22px]">
+          <h3 class="mb-3 font-display text-[17px] font-extrabold text-primary-dark lg:mb-4 lg:text-[21px]">
+            Filtrar por família
+          </h3>
+          <div
+            class="flex flex-wrap gap-2 lg:grid"
+            role="group"
+            aria-label="Filtrar equipamentos por família"
+          >
+            {filters.map((filter, i) => (
+              <button
+                type="button"
+                data-cta={`vitrine-filtro-${filter.id}`}
+                data-filter={filter.id}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class:list={['catalog-filter', i === 0 && 'is-active']}
+              >
+                <Icon name={filter.icon} class="size-[18px] shrink-0 lg:size-[22px]" />
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </aside>
+
+        <ul class="grid grid-cols-2 gap-2.5 sm:gap-3.5 xl:grid-cols-3">
+          {items.map((item) => (
+            <li
+              class="product-card flex flex-col rounded-lg bg-neutral-light p-1.5 sm:p-2.5"
+              data-group={item.group}
+            >
+              <div class="product-card__stage flex h-[140px] items-center justify-center overflow-hidden rounded-md p-2 sm:h-[180px] sm:p-3.5 lg:h-[220px]">
+                <Image
+                  src={item.photo.src}
+                  alt={item.photo.alt}
+                  format="webp"
+                  width={420}
+                  loading="lazy"
+                  decoding="async"
+                  class="product-card__photo h-full w-full object-contain"
+                />
+              </div>
+              <div class="flex flex-1 flex-col px-1.5 pt-3 pb-1.5 sm:px-3.5 sm:pt-4 sm:pb-2">
+                <span class="font-display text-[10px] font-bold tracking-[0.07em] text-[#6b7686] uppercase sm:text-[11.5px]">
+                  {groupById.get(item.group)?.label}
+                </span>
+                <h3 class="mt-1.5 mb-2.5 font-display text-[14.5px] leading-tight font-extrabold tracking-[-0.01em] text-primary-dark sm:mb-3.5 sm:text-[17px]">
+                  {item.title}
+                </h3>
+                <button
+                  type="button"
+                  data-cta={`vitrine-${item.id}`}
+                  class="btn-slave-whats mt-auto flex items-center gap-2.5 border-t border-neutral-gray-200 pt-2.5 text-left font-display text-[12.5px] font-bold tracking-[0.03em] text-accent-orange uppercase transition-[gap,color] duration-200 hover:gap-4 hover:text-primary-dark sm:pt-3 sm:text-sm"
+                >
+                  {cta.card}
+                  <Icon name="arrow-right" class="size-4 shrink-0" />
+                </button>
+              </div>
+            </li>
+          ))}
+          <li
+            data-catalog-empty
+            hidden
+            class="col-span-full px-5 py-12 text-center font-sans text-[15px]"
+          >
+            Nenhum equipamento nesta família.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .catalog__top {
+    background: linear-gradient(
+      100deg,
+      var(--color-primary-dark-900) 0%,
+      var(--color-primary-dark) 70%,
+      var(--color-primary-dark-800) 100%
+    );
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  /* faixas diagonais translúcidas à direita */
+  .catalog__top::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 34%;
+    background: linear-gradient(
+      115deg,
+      transparent 0 38%,
+      rgb(255 255 255 / 0.035) 38% 56%,
+      transparent 56% 64%,
+      rgb(255 255 255 / 0.025) 64% 80%,
+      transparent 80%
+    );
+    pointer-events: none;
+  }
+
+  .catalog__body {
+    background: linear-gradient(180deg, #f2f5f9 0%, #edf1f5 100%);
+  }
+
+  .catalog-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--color-primary-dark);
+    background: #f4f6f9;
+    border-left: 3px solid transparent;
+    border-radius: 6px;
+    padding: 9px 10px 9px 13px;
+    cursor: pointer;
+    transition:
+      background-color 220ms ease,
+      color 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .catalog-filter:hover {
+    background: #e8edf3;
+  }
+
+  .catalog-filter.is-active {
+    background: linear-gradient(
+      100deg,
+      var(--color-primary-dark) 0%,
+      var(--color-primary-dark-800) 100%
+    );
+    border-left-color: var(--color-accent-orange);
+    color: var(--color-neutral-light);
+  }
+
+  .catalog-filter:focus-visible {
+    outline: 2px solid var(--color-accent-orange);
+    outline-offset: 2px;
+  }
+
+  @media (width >= 64rem) {
+    .catalog-filter {
+      width: 100%;
+      gap: 15px;
+      font-size: 16px;
+      border-left-width: 4px;
+      padding: 13px 14px 13px 18px;
+    }
+  }
+
+  .product-card {
+    box-shadow: 0 6px 22px rgb(20 41 74 / 0.07);
+    transition:
+      transform 300ms ease,
+      box-shadow 300ms ease;
+  }
+
+  .product-card[hidden] {
+    display: none;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgb(20 41 74 / 0.14);
+  }
+
+  .product-card__stage {
+    background: linear-gradient(160deg, #f1f4f8 0%, #dfe5ec 100%);
+  }
+
+  /* multiply some com o fundo branco das fotos sobre o painel claro */
+  .product-card__photo {
+    mix-blend-mode: multiply;
+    transition: transform 500ms ease;
+  }
+
+  .product-card:hover .product-card__photo {
+    transform: scale(1.05);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .catalog-filter,
+    .product-card,
+    .product-card__photo {
+      transition: none;
+    }
+
+    .product-card:hover,
+    .product-card:hover .product-card__photo {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const catalog = document.querySelector<HTMLElement>('[data-catalog]')
+
+  if (catalog) {
+    const buttons = [...catalog.querySelectorAll<HTMLButtonElement>('.catalog-filter')]
+    const cards = [...catalog.querySelectorAll<HTMLElement>('.product-card')]
+    const empty = catalog.querySelector<HTMLElement>('[data-catalog-empty]')
+
+    const apply = (group: string) => {
+      let visible = 0
+      for (const card of cards) {
+        const show = group === 'todos' || card.dataset.group === group
+        card.hidden = !show
+        if (show) visible++
+      }
+      if (empty) empty.hidden = visible > 0
+      for (const button of buttons) {
+        const active = button.dataset.filter === group
+        button.classList.toggle('is-active', active)
+        button.setAttribute('aria-pressed', String(active))
+      }
+    }
+
+    for (const button of buttons) {
+      button.addEventListener('click', () => apply(button.dataset.filter ?? 'todos'))
+    }
+
+    // "Ver modelos" das linhas de produto filtra o catálogo antes de rolar até ele.
+    document.querySelectorAll<HTMLAnchorElement>('#linhas [data-filter]').forEach((link) => {
+      link.addEventListener('click', () => apply(link.dataset.filter ?? 'todos'))
+    })
+  }
+</script>

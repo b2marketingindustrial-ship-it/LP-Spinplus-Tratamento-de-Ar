@@ -5,7 +5,8 @@
  * em toda LP do padrão. O copy das seções do meio vive em
  * `src/data/sections/<slug>.ts`, um arquivo por seção escolhida da biblioteca.
  *
- * Conteúdo atual = exemplo de referência com imagens placeholder. Substitua tudo.
+ * Conteúdo da Spinplus, extraído da LP estática de tratamento de ar
+ * (harpyacessory-ux/LP-Tratamento-de-ar-spinplus-) e do briefing (docs/BRIEFING.md).
  */
 import type { IconName } from './icons'
 import type { Photo } from './types'
@@ -45,22 +46,32 @@ export const header = {
 
 /* -------------------------------------------------------------------- hero */
 
+/** H1 em duas linhas fixas no desktop; a palavra-chave da campanha passa de uma para a outra. */
+const heroTitleLines = ['Soluções de tratamento de ar', 'comprimido sob medida'] as const
+
 export const hero = {
-  eyebrow: 'Manutenção Industrial',
-  title: `${site.product} para ${site.context}`,
-  text: 'Soluções para diferentes aplicações industriais, com apoio na identificação, especificação e cotação.',
+  /** A marca atendida saiu do H1 (pedido do usuário em 21/10/2026) e fica aqui. */
+  eyebrow: `Distribuidor autorizado ${site.context}`,
+  /** Carrega a palavra-chave da campanha (entrada 15). É o que o check:lp compara. */
+  title: heroTitleLines.join(' '),
+  titleLines: heroTitleLines,
+  /** Trecho do H1 destacado em vermelho. */
+  highlight: 'sob medida',
+  text: 'Secadores, filtros coalescentes e drenos Ingersoll Rand\ndimensionados para a vazão e a pressão da sua planta,\ncom suporte técnico de quem é distribuidor no RJ.',
   banner: {
     src: heroBg,
-    alt: 'Produto industrial em destaque sobre fundo técnico',
+    alt: 'Sala de ar comprimido Ingersoll Rand com secador por refrigeração, filtros coalescentes, compressores de parafuso e reservatório',
   },
   points: [
-    { icon: 'shield', line1: 'Produtos para', line2: 'aplicações industriais' },
-    { icon: 'gear', line1: 'Marca A, Marca B', line2: 'e Marca C' },
-    { icon: 'truck', line1: 'Atendimento B2B', line2: 'para manutenção' },
+    { icon: 'calendar', line1: 'Mais de 20 anos', line2: 'em ar comprimido' },
+    { icon: 'shield', line1: 'Distribuidor Ingersoll', line2: 'Rand no RJ' },
+    { icon: 'users', line1: 'Técnicos certificados', line2: 'pela fabricante' },
   ],
 } as const satisfies {
   eyebrow: string
   title: string
+  titleLines: readonly [string, string]
+  highlight: string
   text: string
   banner: Photo
   points: readonly [HeroPoint, HeroPoint, HeroPoint]
@@ -69,13 +80,13 @@ export const hero = {
 /* ----------------------------------------------------------------- cotação */
 
 export const quote = {
-  eyebrow: 'Solicite sua cotação',
-  title: `Fale com quem entende de ${site.product.toLowerCase()}.`,
-  text: 'Nossa equipe está pronta para identificar, especificar e cotar o produto certo para a sua aplicação. Preencha o formulário ou fale direto conosco pelo WhatsApp.',
+  eyebrow: 'Fale com a Spinplus',
+  title: 'Solicite sua cotação sem compromisso.',
+  text: 'Informe a vazão, a pressão de trabalho e a qualidade de ar que o processo exige. Nossa equipe técnica retorna com a indicação de secador, filtragem e drenagem para a sua instalação.',
   trust: [
-    { icon: 'clock', label: 'Resposta rápida' },
-    { icon: 'shield', label: 'Apoio técnico especializado' },
-    { icon: 'map-pin', label: 'Atendimento em todo o Brasil' },
+    { icon: 'shield', label: 'Técnicos certificados Ingersoll Rand' },
+    { icon: 'gear', label: 'Equipamentos e elementos originais' },
+    { icon: 'map-pin', label: 'Atendimento em todo o estado do RJ' },
   ],
   /** Nota de LGPD exibida abaixo do formulário. */
   lgpd: `Seus dados são usados apenas para responder à sua solicitação de cotação, conforme a LGPD.`,

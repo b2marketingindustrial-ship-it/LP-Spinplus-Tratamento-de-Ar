@@ -1,43 +1,60 @@
 ---
 /**
- * ESTRUTURA FIXA (PROMPT-PADRAO-LP 4.1.1). Não alterar layout, medidas ou ordem.
+ * ESTRUTURA FIXA (PROMPT-PADRAO-LP 4.1.1), com o desvio aprovado pelo cliente em
+ * 19/10/2026: barra branca e logo alinhada dentro dela, no lugar da barra navy com a
+ * placa branca pendurada. Registrado em docs/BRIEFING.md (Desvios do padrão).
  * Muda só: logo (src/assets/LOGO.png), tagline (site.product) e vocabulário de CTA (content.cta).
  */
 import { Image } from 'astro:assets'
 import logo from '../assets/LOGO.png'
+import ingersoll from '../assets/marca-ingersoll.png'
 import { site } from '../data/site'
 import { header, cta } from '../data/content'
 ---
 
-<header class="sticky top-0 z-50 bg-header-bg">
-  <div class="mx-auto flex max-w-page items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
-    {/* 1. Logo em placa branca "pendurada" abaixo da barra. Altura fixa e largura até
-        150/260 px: serve do logo quase quadrado ao horizontal (até ~3:1). */}
-    <a href="/" class="flex shrink-0 items-center self-start">
-      <span class="-mt-3 -mb-10 flex items-center rounded-b-xl bg-neutral-light px-3 pt-1.5 pb-1 shadow-[0_10px_24px_-10px_rgba(0,0,0,0.55)] sm:px-6 sm:pt-2 sm:pb-1.5">
+<header class="sticky top-0 z-50 border-b border-primary-dark/10 bg-neutral-light">
+  <div class="mx-auto flex max-w-page items-center justify-between gap-3 px-6 py-3 sm:gap-6 lg:px-10">
+    {/* 1. Logos alinhadas na barra: Spinplus | Ingersoll Rand */}
+    <div class="flex shrink-0 items-center gap-3 sm:gap-5">
+      <a href="/" class="flex shrink-0 items-center">
         <Image
           src={logo}
           alt={site.brand}
+          width={598}
           height={200}
           format="webp"
           loading="eager"
           fetchpriority="low"
           decoding="async"
-          class="-mt-1 -mb-0.5 h-14 w-auto max-w-[150px] object-contain sm:-mt-2 sm:-mb-1 sm:h-24 sm:max-w-[260px]"
+          class="header-logo h-9 w-auto sm:h-[3.15rem]"
         />
-      </span>
-    </a>
+      </a>
+
+      <span aria-hidden="true" class="h-8 w-px shrink-0 bg-primary-dark/20 sm:h-11"></span>
+
+      <Image
+        src={ingersoll}
+        alt="Ingersoll Rand"
+        width={230}
+        height={50}
+        format="webp"
+        loading="eager"
+        fetchpriority="low"
+        decoding="async"
+        class="h-6 w-auto sm:h-10"
+      />
+    </div>
 
     {/* 2. Tagline central (some no mobile) */}
-    <span class="hidden flex-1 text-center font-display text-[15px] font-extrabold tracking-[0.14em] text-neutral-light uppercase sm:block lg:text-[17px]">
+    <span class="hidden flex-1 text-center font-display text-[15px] font-extrabold tracking-[0.05em] text-primary-dark uppercase sm:block lg:text-[17px]">
       {header.tagline}
     </span>
 
-    {/* 3. CTA laranja, uppercase, rótulo curto no mobile */}
+    {/* 3. CTA vermelho, uppercase, rótulo curto no mobile */}
     <button
       type="button"
       data-cta="header-cta"
-      class="btn-slave-whats inline-flex shrink-0 items-center bg-header-cta px-4 py-2 font-sans text-[11px] font-bold tracking-[0.04em] text-neutral-light uppercase transition-colors duration-200 hover:bg-header-cta-hover sm:px-6 sm:py-2.5 sm:text-[13px] sm:tracking-[0.06em]"
+      class="btn-slave-whats inline-flex shrink-0 items-center bg-accent-orange px-4 py-2 font-sans text-[11px] font-bold tracking-[0.04em] text-neutral-light uppercase transition-colors duration-200 hover:bg-accent-orange-dark sm:px-6 sm:py-2.5 sm:text-[13px] sm:tracking-[0.06em]"
     >
       <span class="sm:hidden">{cta.primaryShort}</span>
       <span class="hidden sm:inline">{cta.primary}</span>

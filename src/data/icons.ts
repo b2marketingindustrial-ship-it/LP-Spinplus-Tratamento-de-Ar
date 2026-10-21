@@ -28,7 +28,7 @@ export const iconPaths = {
     '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8"/>',
   bolt: '<path d="M12.5 3 5 13.5h5.5L11 21l7.5-11H13l-.5-7Z"/>',
   droplet: '<path d="M12 3.5s6.5 7.2 6.5 11.5A6.5 6.5 0 0 1 5.5 15c0-4.3 6.5-11.5 6.5-11.5Z"/>',
-  gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.3M12 18.2v2.3M20.5 12h-2.3M5.8 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8 6.2 6.2"/>',
+  gear: '<circle cx="12" cy="12" r="3"/><path d="M19.1 14.2a1.5 1.5 0 0 0 .3 1.7l.1.1a1.8 1.8 0 1 1-2.6 2.6l-.1-.1a1.5 1.5 0 0 0-1.7-.3 1.5 1.5 0 0 0-.9 1.4v.3a1.8 1.8 0 1 1-3.6 0v-.2a1.5 1.5 0 0 0-1-1.4 1.5 1.5 0 0 0-1.7.3l-.1.1a1.8 1.8 0 1 1-2.6-2.6l.1-.1a1.5 1.5 0 0 0 .3-1.7 1.5 1.5 0 0 0-1.4-.9h-.3a1.8 1.8 0 1 1 0-3.6h.2a1.5 1.5 0 0 0 1.4-1 1.5 1.5 0 0 0-.3-1.7l-.1-.1a1.8 1.8 0 1 1 2.6-2.6l.1.1a1.5 1.5 0 0 0 1.7.3h.1a1.5 1.5 0 0 0 .9-1.4v-.3a1.8 1.8 0 1 1 3.6 0v.2a1.5 1.5 0 0 0 .9 1.4 1.5 1.5 0 0 0 1.7-.3l.1-.1a1.8 1.8 0 1 1 2.6 2.6l-.1.1a1.5 1.5 0 0 0-.3 1.7v.1a1.5 1.5 0 0 0 1.4.9h.3a1.8 1.8 0 1 1 0 3.6h-.2a1.5 1.5 0 0 0-1.4.9Z"/>',
   move: '<path d="M3.5 12h17M6 8.5 3.5 12 6 15.5M18 8.5 20.5 12 18 15.5"/>',
   mountain: '<path d="m3.5 18.5 6-10 4 6.2 2-3 5 6.8Z"/><circle cx="16" cy="6.5" r="1.6"/>',
   grid: '<rect x="3.5" y="3.5" width="7" height="7" rx="0.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="0.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="0.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="0.6"/>',
@@ -84,6 +84,15 @@ export const iconPaths = {
     '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
   shield:
     '<path d="M12 3.3 5.2 6v5.3c0 4.2 2.8 7.9 6.8 9.4 4-1.5 6.8-5.2 6.8-9.4V6L12 3.3Z"/><path d="m9.2 11.9 2 2 3.6-4"/>',
+  /** Calendário — tempo de casa. */
+  calendar:
+    '<rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 16.5h.01M12 16.5h.01"/>',
+  /** Plataforma offshore sobre o mar. */
+  offshore:
+    '<path d="M2.5 20c1.6 0 1.6-1 3.2-1s1.6 1 3.2 1 1.6-1 3.2-1 1.6 1 3.2 1 1.6-1 3.2-1 1.6 1 3.2 1"/><path d="M7 17.5V11.5M17 17.5V11.5M7 14.5h10"/><path d="M5 11.5h14"/><path d="M9.5 11.5V8h5v3.5"/><path d="M12 8V3.5l3 2"/>',
+  /** Capacete de segurança — equipe técnica em campo. */
+  'hard-hat':
+    '<path d="M4 17h16v1.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V17Z"/><path d="M5.5 17v-2.5a6.5 6.5 0 0 1 13 0V17"/><path d="M10 8.3V6h4v2.3"/><path d="M12 10.5V14"/>',
   truck:
     '<rect x="2.8" y="6.8" width="10.6" height="9.4" rx="1"/><path d="M13.4 10.2h3.3l2.8 3v3h-6.1z"/><circle cx="7" cy="18" r="1.7"/><circle cx="16.4" cy="18" r="1.7"/>',
   barcode: '<path d="M4 5v14M7.2 5v14M9.6 5v14M13 5v14M15.4 5v14M18 5v14M20.5 5v14"/>',
@@ -95,6 +104,12 @@ export const iconPaths = {
   alert: '<path d="M12 4.3 21 19.7H3L12 4.3Z"/><path d="M12 10v3.8"/><path d="M12 16.8h.01"/>',
   'clipboard-check':
     '<rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.4c0-.5.4-.9.9-.9h4.2c.5 0 .9.4.9.9v1.1"/><path d="m9.2 12.6 2 2 3.6-4"/>',
+  /** Filtros do catálogo, trazidos da LP estática: refrigeração, adsorção e filtro. */
+  snowflake:
+    '<path d="M12 2.5v19M3.8 7.25l16.4 9.5M20.2 7.25 3.8 16.75M9.6 4.2 12 6.3l2.4-2.1M9.6 19.8 12 17.7l2.4 2.1M3.9 10.1l3.1.6-1 3M20.1 13.9l-3.1-.6 1-3M3.9 13.9l3.1-.6-1-3M20.1 10.1l-3.1.6 1 3"/>',
+  waves:
+    '<path d="M3 9.5c1.5-1.7 3-1.7 4.5 0s3 1.7 4.5 0 3-1.7 4.5 0 3 1.7 4.5 0M3 15.5c1.5-1.7 3-1.7 4.5 0s3 1.7 4.5 0 3-1.7 4.5 0 3 1.7 4.5 0"/>',
+  funnel: '<path d="M3.5 4.5h17l-6.5 8.2v5.8l-4 2v-7.8z"/>',
 } as const satisfies Record<string, string>
 
 export type IconName = keyof typeof iconPaths

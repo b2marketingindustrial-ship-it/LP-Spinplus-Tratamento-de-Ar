@@ -4,19 +4,19 @@
  */
 export const site = {
   /** Nome completo da empresa (entrada 1). */
-  brand: 'Empresa Exemplo',
+  brand: 'Spinplus',
   /** Nome curto usado em frases como "Por que a …" (entrada 2). */
-  brandShort: 'Exemplo',
+  brandShort: 'Spinplus',
   /** Produto principal, no plural (entrada 3). Vai na tagline do header e no H1. */
-  product: 'Produtos industriais',
+  product: 'Tratamento de ar comprimido',
   /** Contexto de uso (entrada 4). Completa o H1 e o title. */
-  context: 'manutenção e reposição',
+  context: 'Ingersoll Rand',
   /** URL absoluta da página no ar (entrada 10). Usada em canonical e og:url. */
-  url: 'https://www.exemplo.com.br/lp/produtos-industriais',
+  url: 'https://spinplus.com.br/tratamento-de-ar-comprimido-ingersoll-rand/',
   /** Endereço completo com CEP (entrada 9). Footer e JSON-LD. */
-  address: 'Rua Exemplo, 100 - Centro, Cidade - UF, 00000-000',
+  address: 'Estrada do Outeiro Santo, 631, Boxes 15/16 - Taquara, Rio de Janeiro - RJ',
   /** Link da política de privacidade do cliente (entrada 10). Vazio esconde o link, mas a nota de LGPD continua. */
-  privacyUrl: '',
+  privacyUrl: 'https://spinplus.com.br/politica-de-privacidade/',
   /** Versão do padrão B2 que esta LP segue. Não editar manualmente; vem do template. */
   standardVersion: '2.9.0',
 } as const
@@ -35,11 +35,11 @@ export const shortcodes = {
 } as const
 
 /** Título da aba: "{Produto} para {contexto} | {Marca}". */
-export const title = `${site.product} para ${site.context} | ${site.brand}`
+export const title = `${site.product} ${site.context} | ${site.brand}`
 
 /** Meta description (≤ 160 caracteres). Ajuste o texto, mantendo marcas e o apoio técnico. */
 export const description =
-  'Solicite cotação de produtos industriais das principais marcas. Apoio técnico na identificação e especificação para manutenção industrial.'
+  'Tratamento de ar comprimido Ingersoll Rand no RJ: secadores por refrigeração e adsorção, filtros coalescentes e drenos, com dimensionamento técnico.'
 
 /**
  * Campanha que leva tráfego para esta LP (entrada 15). Quem clica digitou a
@@ -51,7 +51,7 @@ export const campaign = {
    * estiver no H1 e no title — aceita maiúscula, acento, plural e outra ordem.
    * `null` quando a LP não tem campanha definida; vazio é entrada não preenchida.
    */
-  mainKeyword: '',
+  mainKeyword: 'tratamento de ar comprimido',
   /**
    * Negativas **de oferta** da campanha — o que a empresa não vende. O `check:lp`
    * avisa quando o texto da página usa uma delas. As de intenção (emprego, curso)

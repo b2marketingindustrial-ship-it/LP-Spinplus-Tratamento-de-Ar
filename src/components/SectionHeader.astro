@@ -38,7 +38,7 @@ const {
 
 const widths = { xl: 'max-w-xl', '2xl': 'max-w-2xl', '4xl': 'max-w-4xl' }
 const alignClass = align === 'center' ? 'mx-auto text-center' : ''
-const titleColor = tone === 'light' ? 'text-neutral-light' : 'text-ink'
+const titleColor = tone === 'light' ? 'text-neutral-light' : 'text-primary-dark'
 const textColor = tone === 'light' ? 'text-on-dark' : 'text-ink-soft'
 ---
 
@@ -46,7 +46,10 @@ const textColor = tone === 'light' ? 'text-on-dark' : 'text-ink-soft'
   <Eyebrow tone={tone === 'light' ? 'light' : 'dark'}>{eyebrow}</Eyebrow>
 
   <h2
-    class:list={['mt-3 font-display text-3xl leading-tight font-extrabold sm:text-4xl', titleColor]}
+    class:list={[
+      'mt-4 font-display text-[2.25rem] leading-[1.05] font-extrabold tracking-[-0.015em] sm:text-[2.75rem] lg:text-[3rem]',
+      titleColor,
+    ]}
   >
     {title}
   </h2>
@@ -63,7 +66,7 @@ const textColor = tone === 'light' ? 'text-on-dark' : 'text-ink-soft'
   )}
 
   {text && (
-    <p class:list={['font-sans text-[15px] leading-relaxed', rule ? 'mt-5' : 'mt-3', textColor]}>
+    <p class:list={['mt-5 font-sans text-base leading-relaxed lg:text-[17px]', textColor]}>
       {text}
     </p>
   )}
