@@ -1,0 +1,23 @@
+---
+interface Props {
+  tone?: 'light' | 'dark'
+  marker?: boolean
+  class?: string
+}
+
+const { tone = 'dark', marker = true, class: className = '' } = Astro.props
+
+const toneClasses = tone === 'light' ? 'text-on-dark' : 'text-ink-soft'
+const markerColor = tone === 'light' ? 'bg-accent-on-dark' : 'bg-accent-orange'
+---
+
+<span
+  class={`
+    inline-flex items-center gap-2.5
+    font-sans text-[12px] font-semibold uppercase tracking-[0.16em]
+    ${toneClasses} ${className}
+  `}
+>
+  {marker && <span class:list={['h-[6px] w-[6px]', markerColor]} />}
+  <slot />
+</span>
