@@ -12,7 +12,7 @@ export const site = {
   /** Contexto de uso (entrada 4). Completa o H1 e o title. */
   context: 'Ingersoll Rand',
   /** URL absoluta da página no ar (entrada 10). Usada em canonical e og:url. */
-  url: 'https://spinplus.com.br/tratamento-de-ar-comprimido-ingersoll-rand/',
+  url: 'https://spinplus.com.br/tratamento-de-ar/',
   /** Endereço completo com CEP (entrada 9). Footer e JSON-LD. */
   address: 'Estrada do Outeiro Santo, 631, Boxes 15/16 - Taquara, Rio de Janeiro - RJ',
   /** Link da política de privacidade do cliente (entrada 10). Vazio esconde o link, mas a nota de LGPD continua. */

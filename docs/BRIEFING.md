@@ -66,23 +66,23 @@ Aplicada em: `20/10/2026` · comando: `npm run compose -- linhas vitrine identif
 
 ## Entradas do núcleo
 
-| #   | Entrada                 | Status    | Valor confirmado                                                           | Referência / observação                                                                                  |
-| --- | ----------------------- | --------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| 1   | MARCA                   | extraído  | Spinplus                                                                   | igual à LP de manutenção                                                                                 |
-| 2   | MARCA_CURTA             | extraído  | Spinplus                                                                   |                                                                                                          |
-| 3   | PRODUTO_PRINCIPAL       | extraído  | Tratamento de ar comprimido                                                | H1 da LP estática                                                                                        |
-| 4   | CONTEXTO_DE_USO         | extraído  | Ingersoll Rand                                                             | mesmo formato da manutenção: H1 = produto + marca atendida                                               |
-| 5   | PUBLICO                 | inferido  | indústrias do RJ com sistema de ar comprimido                              |                                                                                                          |
-| 6   | HERO                    | extraído  | texto e selos da LP estática                                               |                                                                                                          |
-| 7   | MARCAS_ATENDIDAS        | pendência | logo Ingersoll Rand no header e no carrossel                               | mesma situação da manutenção: autorização de uso do logo não registrada                                  |
-| 8   | SELOS_DE_CONFIANCA      | extraído  | 20+ anos · distribuidor IR no RJ · técnicos certificados                   |                                                                                                          |
-| 9   | ENDERECO                | extraído  | Estrada do Outeiro Santo, 631, Boxes 15/16 - Taquara, Rio de Janeiro - RJ  |                                                                                                          |
-| 10  | URL_FINAL + PRIVACIDADE | pendência | `https://spinplus.com.br/tratamento-de-ar-comprimido-ingersoll-rand/`      | **URL provisória**, no formato da manutenção — trocar pela real antes de indexar. Privacidade: a do site |
-| 11  | SHORTCODES              | default   | `[atendimento_chat id="default"]` · `[atendimento_form id="default-form"]` | os mesmos da manutenção                                                                                  |
-| 12  | WHATSAPP                | default   | vazio (sem botão flutuante)                                                | como na manutenção; o CTA "Chamar no WhatsApp" da cotação continua                                       |
-| 13  | STACK + PUBLICACAO      | default   | Astro, padrão B2                                                           | o repositório estático (`harpy`) ainda tem a versão HTML — publicar lá substitui o site estático         |
-| 14  | TOKENS_DE_COR + FONTE   | extraído  | os da manutenção (navy Spinplus, vermelho de marcação)                     | `src/styles/global.css` trazido da manutenção                                                            |
-| 15  | CAMPANHA                | pendência | ver "Campanha"                                                             |                                                                                                          |
+| #   | Entrada                 | Status    | Valor confirmado                                                           | Referência / observação                                                                          |
+| --- | ----------------------- | --------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 1   | MARCA                   | extraído  | Spinplus                                                                   | igual à LP de manutenção                                                                         |
+| 2   | MARCA_CURTA             | extraído  | Spinplus                                                                   |                                                                                                  |
+| 3   | PRODUTO_PRINCIPAL       | extraído  | Tratamento de ar comprimido                                                | H1 da LP estática                                                                                |
+| 4   | CONTEXTO_DE_USO         | extraído  | Ingersoll Rand                                                             | mesmo formato da manutenção: H1 = produto + marca atendida                                       |
+| 5   | PUBLICO                 | inferido  | indústrias do RJ com sistema de ar comprimido                              |                                                                                                  |
+| 6   | HERO                    | extraído  | texto e selos da LP estática                                               |                                                                                                  |
+| 7   | MARCAS_ATENDIDAS        | pendência | logo Ingersoll Rand no header e no carrossel                               | mesma situação da manutenção: autorização de uso do logo não registrada                          |
+| 8   | SELOS_DE_CONFIANCA      | extraído  | 20+ anos · distribuidor IR no RJ · técnicos certificados                   |                                                                                                  |
+| 9   | ENDERECO                | extraído  | Estrada do Outeiro Santo, 631, Boxes 15/16 - Taquara, Rio de Janeiro - RJ  |                                                                                                  |
+| 10  | URL_FINAL + PRIVACIDADE | definido  | `https://spinplus.com.br/tratamento-de-ar/`                                | URL publicada (21/10/2026); a provisória dava 404. Privacidade: a do site                        |
+| 11  | SHORTCODES              | default   | `[atendimento_chat id="default"]` · `[atendimento_form id="default-form"]` | os mesmos da manutenção                                                                          |
+| 12  | WHATSAPP                | default   | vazio (sem botão flutuante)                                                | como na manutenção; o CTA "Chamar no WhatsApp" da cotação continua                               |
+| 13  | STACK + PUBLICACAO      | default   | Astro, padrão B2                                                           | o repositório estático (`harpy`) ainda tem a versão HTML — publicar lá substitui o site estático |
+| 14  | TOKENS_DE_COR + FONTE   | extraído  | os da manutenção (navy Spinplus, vermelho de marcação)                     | `src/styles/global.css` trazido da manutenção                                                    |
+| 15  | CAMPANHA                | pendência | ver "Campanha"                                                             |                                                                                                  |
 
 ## Entradas por seção
 
@@ -190,7 +190,7 @@ vitrine.
 - **Filtro do catálogo fixo na rolagem:** o `overflow-hidden` do bloco anulava o `sticky`; virou `overflow-clip`, que recorta os cantos sem criar contêiner de rolagem.
 - **Painel de dimensionamento:** título em duas linhas (coluna de 560px; variáveis em 620px). A foto aparece no bloco inteiro: véu de 86–78% sob o texto, 42% no vão entre as colunas e 70–76% sob as variáveis. Contraste do texto branco no pior caso (foto branca atrás): cerca de 8,7:1 à esquerda e 7:1 à direita.
 - **Diferenciais:** "Uma empresa que faz só ar comprimido." virou "Especialista em ar comprimido industrial.", sem a restrição do "só".
-- **Cotação:** título "Solicite sua cotação sem compromisso." e eyebrow "Fale com a Spinplus" (o antigo repetia o título).
+- **Cotação:** título "Fale com a equipe técnica da Spinplus." e eyebrow "Fale com a Spinplus" (o antigo repetia o título).
 - **Cotação → rodapé igual à manutenção:** o empilhamento das divisórias (`z-index` decrescente em `global.css`) cobria só 6 seções, as da manutenção; esta LP tem 7, e o rodapé pintava por cima da cotação, mostrando uma faixa de 48px com a borda no meio. A escada agora vai até 8 seções. O componente do rodapé é o mesmo da manutenção, com os tokens de cor do v2.9.0.
 - **Transição hero → linhas:** as duas seções são navy e a curva sumia. O hero fecha com o fio vermelho de 3px dos outros blocos navy e uma sombra que o descola de linhas.
 

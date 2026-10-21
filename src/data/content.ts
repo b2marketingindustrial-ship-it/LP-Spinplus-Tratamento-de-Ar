@@ -81,7 +81,7 @@ export const hero = {
 
 export const quote = {
   eyebrow: 'Fale com a Spinplus',
-  title: 'Solicite sua cotação sem compromisso.',
+  title: 'Fale com a equipe técnica da Spinplus.',
   text: 'Informe a vazão, a pressão de trabalho e a qualidade de ar que o processo exige. Nossa equipe técnica retorna com a indicação de secador, filtragem e drenagem para a sua instalação.',
   trust: [
     { icon: 'shield', label: 'Técnicos certificados Ingersoll Rand' },
